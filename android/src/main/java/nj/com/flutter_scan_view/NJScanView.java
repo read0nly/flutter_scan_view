@@ -1,5 +1,6 @@
 package nj.com.flutter_scan_view;
 
+
 import android.content.Context;
 import android.view.View;
 
@@ -16,7 +17,6 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
-@SuppressWarnings("unchecked")
 public class NJScanView implements PlatformView, MethodChannel.MethodCallHandler {
     private final MethodChannel methodChannel;
     private DecoratedBarcodeView scannerView;

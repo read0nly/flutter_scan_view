@@ -9,7 +9,6 @@ import io.flutter.plugin.common.StandardMessageCodec;
 import io.flutter.plugin.platform.PlatformView;
 import io.flutter.plugin.platform.PlatformViewFactory;
 
-@SuppressWarnings("unchecked")
 public class NJScanViewFactory extends PlatformViewFactory {
     private final BinaryMessenger messenger;
 
