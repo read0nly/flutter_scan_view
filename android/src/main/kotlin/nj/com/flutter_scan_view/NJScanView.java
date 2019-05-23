@@ -21,7 +21,7 @@ public class NJScanView implements PlatformView, MethodChannel.MethodCallHandler
     private final MethodChannel methodChannel;
     private DecoratedBarcodeView scannerView;
     private MethodChannel.Result callback;
-    
+
     NJScanView(Context context, BinaryMessenger messenger, int id, Map<String, Object> params) {
 
         scannerView = new DecoratedBarcodeView(context);
