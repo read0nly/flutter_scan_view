@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
                       child: Text('Start Scan'),
                       onPressed: () {
                         _controller.startScan().then((text) {
-                          print("Scan Result：${_code ?? ""}");
+                          print("Scan Result：$text");
                           setState(() {
                             _code = text;
                           });
