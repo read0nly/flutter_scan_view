@@ -6,9 +6,10 @@ A scan code view that can be embedded in the Widget Tree on iOS and Android..
 First, add `flutter_scan_view` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
 ### iOS
+Swift version:`s.swift_version = '5'`
+
 Add the following keys to your _Info.plist_ file, located in `<project root>/ios/Runner/Info.plist`:
 * `NSCameraUsageDescription` - describe why your app needs access to the camera. This is called _Privacy - Camera Usage Description_ in the visual editor.
-
 ### Android
 On Android 6 or higher, you need to request camera permissions first. you can use [permission_handler](https://pub.flutter-io.cn/packages/permission_handler)  to get permission.
 

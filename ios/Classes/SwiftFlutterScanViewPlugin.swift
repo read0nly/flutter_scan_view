@@ -86,7 +86,7 @@ public class SwiftFlutterScanViewController :NSObject, FlutterPlatformView,ZXCap
         if (!UIDevice.current.isGeneratingDeviceOrientationNotifications) {
             UIDevice.current.endGeneratingDeviceOrientationNotifications()
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDeviceOrientationChange), name:Notification.Name.UIDeviceOrientationDidChange , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDeviceOrientationChange), name:UIDevice.orientationDidChangeNotification , object: nil)
     }
     
     func startScan(result: @escaping FlutterResult) {

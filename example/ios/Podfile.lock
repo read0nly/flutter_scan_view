@@ -23,7 +23,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  flutter_scan_view: da87eeca29d788201cbaded5b0fb512f035048ef
+  flutter_scan_view: 85f76662e102c57ba9d833d8a83d5ccfc3ff8f5e
   ZXingObjC: fdbb269f25dd2032da343e06f10224d62f537bdb
 
 PODFILE CHECKSUM: ebd43b443038e611b86ede96e613bd6033c49497
