@@ -1,0 +1,31 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_scan_view (0.0.1):
+    - Flutter
+    - ZXingObjC
+  - ZXingObjC (3.6.5):
+    - ZXingObjC/All (= 3.6.5)
+  - ZXingObjC/All (3.6.5)
+
+DEPENDENCIES:
+  - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_scan_view (from `.symlinks/plugins/flutter_scan_view/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - ZXingObjC
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  flutter_scan_view:
+    :path: ".symlinks/plugins/flutter_scan_view/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  flutter_scan_view: da87eeca29d788201cbaded5b0fb512f035048ef
+  ZXingObjC: fdbb269f25dd2032da343e06f10224d62f537bdb
+
+PODFILE CHECKSUM: ebd43b443038e611b86ede96e613bd6033c49497
+
+COCOAPODS: 1.5.3

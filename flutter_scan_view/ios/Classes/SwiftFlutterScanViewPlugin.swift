@@ -51,6 +51,7 @@ public class SwiftFlutterScanViewController :NSObject, FlutterPlatformView,ZXCap
         let height = params?["height"] as? CGFloat ?? 0
         self.scanView = UIView(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
         self.initScan()
+        self.initNotification()
      }
 
     public func view() -> UIView {
@@ -77,11 +78,17 @@ public class SwiftFlutterScanViewController :NSObject, FlutterPlatformView,ZXCap
 
         /// 设置capture的旋转
         self.applyOrientation()
-        /// 设置扫码区域
-        let captureSizeTransform = CGAffineTransform.init(scaleX: 720 / self.scanView.bounds.width, y: 1280 / self.scanView.bounds.height)
-        self.capture.scanRect = self.scanView.bounds.applying(captureSizeTransform)
-//        print("self.capture.scanRect:\(self.capture.scanRect)")
+        /// 设置扫码是被区域
+        self.applyRectOdInterest()
     }
+    
+    func initNotification() {
+        if (!UIDevice.current.isGeneratingDeviceOrientationNotifications) {
+            UIDevice.current.endGeneratingDeviceOrientationNotifications()
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDeviceOrientationChange), name:Notification.Name.UIDeviceOrientationDidChange , object: nil)
+    }
+    
     func startScan(result: @escaping FlutterResult) {
         self.scanResult = result
         self.capture.delegate = self
@@ -101,8 +108,13 @@ public class SwiftFlutterScanViewController :NSObject, FlutterPlatformView,ZXCap
     }
 
     //MARK: -  👉 private
+    @objc func handleDeviceOrientationChange(notification:Notification) {
+        self.capture.layer.frame = self.scanView.bounds
+        self.applyOrientation()
+    }
+    
+    /// 设置摄像头画面的旋转方向
     private func applyOrientation() {
-
         let orientation = UIApplication.shared.statusBarOrientation
         var scanRectRotation:Float = 0
         var captureRotation:Float = 0
@@ -130,40 +142,23 @@ public class SwiftFlutterScanViewController :NSObject, FlutterPlatformView,ZXCap
 
 
     }
-
+    /// 设置摄像头画面的扫码区域
     private func applyRectOdInterest() {
-        var scaleVideo:CGFloat = 0.0
-        var scaleVideoX:CGFloat = 0
-        var scaleVideoY:CGFloat = 0
-
-        var videoSizeX:CGFloat = 0
-        var videoSizeY:CGFloat = 0
-        var width:CGFloat = 0
-        var height:CGFloat = 0
-        var x:CGFloat = 0
-        var y:CGFloat = 0
-
-        if (self.capture.sessionPreset == AVCaptureSession.Preset.hd1920x1080.rawValue ) {
-            videoSizeX = 1080
-            videoSizeY = 1920
-        } else {
-            videoSizeX = 720
-            videoSizeY = 1280
+        var videoSizeX:CGFloat = 1280
+        var videoSizeY:CGFloat = 720
+        let orientation = UIApplication.shared.statusBarOrientation
+        switch orientation {
+        case .landscapeLeft,.landscapeRight:
+         videoSizeX = 720
+         videoSizeY = 1280
+        default:break;
         }
-        scaleVideoX = self.scanView.bounds.width / videoSizeX
-        scaleVideoY = self.scanView.bounds.height / videoSizeY
-        scaleVideo = max(scaleVideoX, scaleVideoY)
-
-        width = self.capture.layer.frame.size.width / scaleVideo
-        height = self.capture.layer.frame.size.height / scaleVideo
-        if (scaleVideoX > scaleVideoY) {
-            x = self.capture.layer.frame.origin.x / scaleVideo
-            y = x * self.capture.layer.frame.origin.y / self.capture.layer.frame.origin.x
-        } else {
-            y = self.capture.layer.frame.origin.y / scaleVideo
-            x = y * self.capture.layer.frame.origin.x / self.capture.layer.frame.origin.y
-        }
-        self.capture.scanRect = CGRect.init(x: x, y: y, width: width, height: height)
+    
+        /// 设置扫码区域
+        let captureSizeTransform = CGAffineTransform.init(scaleX: videoSizeX / self.scanView.bounds.width, y: videoSizeY / self.scanView.bounds.height)
+        self.capture.scanRect = self.scanView.bounds.applying(captureSizeTransform)
+        print("self.capture.scanRect:\(self.capture.scanRect)")
+       
     }
 
     private func barCodeFormatToString(format:ZXBarcodeFormat) -> String {
@@ -222,6 +217,7 @@ public class SwiftFlutterScanViewController :NSObject, FlutterPlatformView,ZXCap
     }
 
     deinit {
+        NotificationCenter.default.removeObserver(self)
         self.capture.layer.removeFromSuperlayer()
         self.capture.delegate = nil
         self.capture = nil
